@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* FITTRACK THEME */
+
+@theme {
+
+  /* Colors */
+
+  --color-background: #121212;
+  --color-surface: #1E1E1E;
+  --color-surface-light: #262626;
+
+  --color-primary: #22C55E;
+  --color-primary-hover: #16A34A;
+
+  --color-danger: #EF4444;
+  --color-danger-hover: #DC2626;
+
+  --color-border: #2A2A2A;
+
+  --color-text: #F5F5F5;
+  --color-text-muted: #A1A1AA;
+
+  /* Radius */
+
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-button: 12px;
+
+  /* Shadow */
+
+  --shadow-card:
+    0 10px 35px rgba(0,0,0,.30);
+
+  /* Font */
+
+  --font-display: "Inter", sans-serif;
+}
+
+
+
+
+
+
+/* GLOBAL */
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  padding:0;
+  background:var(--color-background);
+  color:var(--color-text);
+  font-family:var(--font-display);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  cursor:pointer;
+  font:inherit;
+}
+
+input{
+  font:inherit;
+}
+
+input:focus{
+  outline:none;
+
+}
+
+img{
+  max-width:100%;
+}
+
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:9px;
+}
+
+::-webkit-scrollbar-track{
+  background:#171717;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#333;
+  border-radius:100px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#444;
+}
+
+
+/* SELECTION */
+
+::selection{
+  background:#22C55E;
+  color:white;
+}
+
+
+/* INPUT AUTOFILL */
+
+input:-webkit-autofill{
+  -webkit-box-shadow:0 0 0 1000px #1E1E1E inset;
+  -webkit-text-fill-color:white;
+}
+
+
+/* TRANSITIONS */
+
+button,
+input,
+a{
+  transition:.25s;
+}
