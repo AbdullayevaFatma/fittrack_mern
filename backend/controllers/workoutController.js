@@ -3,22 +3,30 @@ const mongoose = require("mongoose");
 
 const getWorkouts = async (req, res) => {
   const user_id = req.user._id;
-  const workouts = await Workout.find({ user_id }).sort({ createdAt: -1 });
+  const workouts = await Workout.find({ user: req.user._id }).sort({ createdAt: -1 });
   res.status(200).json(workouts);
 };
+
+
 
 const getWorkout = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such workout" });
   }
-  const workout = await Workout.findById(id);
+  const workout = await Workout.findOne({
+    _id: id,
+    user: req.user._id,
+  });
 
   if (!workout) {
     return res.status(404).json({ error: "No such workout" });
   }
   res.status(200).json(workout);
 };
+
+
+
 const createWorkout = async (req, res) => {
   const { title, load, reps } = req.body;
 
@@ -42,12 +50,14 @@ const createWorkout = async (req, res) => {
 
   try {
     const user_id = req.user._id;
-    const workout = await Workout.create({ title, load, reps, user_id });
+    const workout = await Workout.create({ title, load, reps, user: req.user._id });
     res.status(200).json(workout);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 
 const updateWorkout = async (req, res) => {
   const { id } = req.params;
@@ -57,9 +67,16 @@ const updateWorkout = async (req, res) => {
   }
 
   const workout = await Workout.findOneAndUpdate(
-    { _id: id },
+    {
+      _id: id,
+      user: req.user._id,
+    },
     {
       ...req.body,
+    },
+    {
+      new: true,
+      runValidators: true,
     },
   );
 
@@ -70,13 +87,18 @@ const updateWorkout = async (req, res) => {
   res.status(200).json(workout);
 };
 
+
+
 const deleteWorkout = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such workout" });
   }
 
-  const workout = await Workout.findOneAndDelete({ _id: id });
+  const workout = await Workout.findOneAndDelete({
+    _id: id,
+    user: req.user._id,
+  });
 
   if (!workout) {
     return res.status(400).json({ error: "No such workout" });
