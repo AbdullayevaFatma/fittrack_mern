@@ -2,17 +2,28 @@ import mongoose from "mongoose";
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+
+    refreshToken: {
+      type: String,
+      default: null,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.statics.signup = async function (email, password) {
   if (!email || !password) {
