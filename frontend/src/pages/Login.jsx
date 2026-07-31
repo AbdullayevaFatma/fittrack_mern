@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginRequest } from "../api/authApi";
+import { useLogin } from "../hooks/useLogin";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+  const { login, loading, error } = useLogin();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    loginRequest(email,password)
+    const response = await login(email, password);
+
+    if (response) {
+      navigate("/");
+    }
   };
 
   return (
@@ -100,8 +108,9 @@ const Login = () => {
             "
           />
         </div>
-
+        {error && <p className="text-danger text-sm">{error}</p>}
         <button
+          disabled={loading}
           className="
             w-full
             bg-primary
@@ -114,7 +123,7 @@ const Login = () => {
             transition
           "
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-center text-sm text-text-muted">
