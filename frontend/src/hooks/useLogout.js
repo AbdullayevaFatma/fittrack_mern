@@ -5,11 +5,15 @@ export const useLogout = () => {
   const { dispatch } = useAuthContext();
 
   const logout = async () => {
-    await logoutRequest();
+    try {
+      await logoutRequest();
 
-    dispatch({
-      type: "LOGOUT",
-    });
+      dispatch({
+        type: "LOGOUT",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-import { refreshRequest } from "../api/authApi";
+import { refreshRequest, logoutRequest } from "../api/authApi";
 import { setAccessToken, clearAccessToken } from "../utils/tokenStore";
 
 export const AuthContext = createContext();
@@ -46,6 +46,7 @@ export const AuthContextProvider = ({ children }) => {
     loading: true,
   });
 
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -75,6 +76,7 @@ export const AuthContextProvider = ({ children }) => {
       value={{
         ...state,
         dispatch,
+        
       }}
     >
       {children}

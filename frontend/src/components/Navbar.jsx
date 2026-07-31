@@ -48,35 +48,35 @@ const Navbar = () => {
 
             {/* Auth Links */}
             {!user && (
-            <div className="flex items-center gap-3">
-              <Link
-                to="/login"
-                className="
-                  px-4 py-2
-                  rounded-button
-                  text-sm
-                  text-text-muted
-                  hover:text-primary
-                "
-              >
-                Login
-              </Link>
+                <div className="flex items-center gap-3">
+                  <Link
+                    to="/login"
+                    className="
+                      px-4 py-2
+                      rounded-button
+                      text-sm
+                      text-text-muted
+                      hover:text-primary
+                    "
+                  >
+                    Login
+                  </Link>
 
-              <Link
-                to="/signup"
-                className="
-                  px-5 py-2
-                  rounded-button
-                  bg-primary
-                  text-black
-                  font-semibold
-                  hover:bg-primary-hover
-                  hover:scale-105
-                "
-              >
-                Sign up
-              </Link>
-            </div>
+                  <Link
+                    to="/signup"
+                    className="
+                      px-5 py-2
+                      rounded-button
+                      bg-primary
+                      text-black
+                      font-semibold
+                      hover:bg-primary-hover
+                      hover:scale-105
+                    "
+                  >
+                    Sign up
+                  </Link>
+                </div>
             )}
           </nav>
         </div>
