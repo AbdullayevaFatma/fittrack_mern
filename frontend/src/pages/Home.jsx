@@ -1,23 +1,16 @@
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
+import { useEffect } from "react";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
-  const workouts = [
-    {
-      _id: "1",
-      title: "Bench Press",
-      load: 80,
-      reps: 10,
-      createdAt: new Date(),
-    },
-    {
-      _id: "2",
-      title: "Squat",
-      load: 100,
-      reps: 8,
-      createdAt: new Date(),
-    },
-  ];
+  const { workouts, getWorkouts } = useWorkoutsContext();
+  const { accessToken } = useAuthContext();
+
+  useEffect(() => {
+    getWorkouts();
+  }, [accessToken]);
 
   return (
     <div
@@ -61,9 +54,10 @@ const Home = () => {
             gap-5
           "
         >
-          {workouts.map((workout) => (
-            <WorkoutDetails key={workout._id} workout={workout} />
-          ))}
+          {workouts &&
+            workouts.map((workout) => (
+              <WorkoutDetails key={workout._id} workout={workout} />
+            ))}
         </div>
       </section>
 

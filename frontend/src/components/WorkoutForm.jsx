@@ -1,18 +1,27 @@
 import { useState } from "react";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
 const WorkoutForm = () => {
   const [title, setTitle] = useState("");
   const [load, setLoad] = useState("");
   const [reps, setReps] = useState("");
 
+  const { createWorkout } = useWorkoutsContext();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log({
+    const workout = {
       title,
-      load,
-      reps,
-    });
+      load: Number(load),
+      reps: Number(reps),
+    };
+
+    await createWorkout(workout);
+
+    setTitle("");
+    setLoad("");
+    setReps("");
   };
 
   return (

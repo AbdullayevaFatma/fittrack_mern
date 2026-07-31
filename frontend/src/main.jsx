@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
-import { WorkoutsContextProvider } from "./context/WorkoutContext.jsx";
+import { WorkoutsContextProvider } from "./context/WorkoutsContext.jsx";
 
 
 
