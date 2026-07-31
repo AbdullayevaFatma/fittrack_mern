@@ -1,23 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { loginRequest } from "../api/authApi";
 
 const Login = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email, password);
+    loginRequest(email,password)
   };
-
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center">
-
       <form
         onSubmit={handleSubmit}
         className="
@@ -32,9 +28,7 @@ const Login = () => {
           space-y-6
         "
       >
-
         <div className="text-center">
-
           <h3
             className="
               text-3xl
@@ -53,26 +47,18 @@ const Login = () => {
           >
             Login to continue your fitness journey
           </p>
-
         </div>
-
-
 
         {/* Email */}
 
         <div className="space-y-2">
-
-          <label className="text-sm text-text-muted">
-            Email Address
-          </label>
-
+          <label className="text-sm text-text-muted">Email Address</label>
 
           <input
             type="email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="example@email.com"
-
             className="
               w-full
               bg-background
@@ -87,27 +73,18 @@ const Login = () => {
               transition
             "
           />
-
         </div>
-
-
-
 
         {/* Password */}
 
         <div className="space-y-2">
-
-          <label className="text-sm text-text-muted">
-            Password
-          </label>
-
+          <label className="text-sm text-text-muted">Password</label>
 
           <input
             type="password"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="********"
-
             className="
               w-full
               bg-background
@@ -122,11 +99,7 @@ const Login = () => {
               transition
             "
           />
-
         </div>
-
-
-
 
         <button
           className="
@@ -144,12 +117,8 @@ const Login = () => {
           Login
         </button>
 
-
-
         <p className="text-center text-sm text-text-muted">
-
           Don't have an account?
-
           <Link
             to="/signup"
             className="
@@ -161,15 +130,10 @@ const Login = () => {
           >
             Sign up
           </Link>
-
         </p>
-
-
       </form>
-
     </div>
   );
 };
-
 
 export default Login;

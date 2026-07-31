@@ -82,13 +82,13 @@ const WorkoutForm = () => {
         >
           Load (kg)
         </label>
-
-        <input
-          type="number"
-          value={load}
-          onChange={(e) => setLoad(e.target.value)}
-          placeholder="80"
-          className="
+        <div className="relative">
+          <input
+            type="number"
+            value={load}
+            onChange={(e) => setLoad(e.target.value)}
+            placeholder="80"
+            className="
             w-full
             bg-background
             border
@@ -96,18 +96,62 @@ const WorkoutForm = () => {
             rounded-input
             px-4
             py-3
+            pr-12
             text-text
             placeholder:text-text-muted
+            focus:outline-none
             focus:border-primary
             focus:ring-2
-          focus:ring-primary/20
-             focus:outline-none
+            focus:ring-primary/20
             transition
-          "
-        />
+            [appearance:textfield]
+            [&::-webkit-inner-spin-button]:appearance-none
+            [&::-webkit-outer-spin-button]:appearance-none
+            "
+          />
+
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col">
+            <button
+              type="button"
+              onClick={() => setLoad((prev) => Number(prev || 0) + 5)}
+              className="
+              h-5
+              w-7
+              rounded-md
+              bg-card
+              text-text-muted
+              hover:bg-primary
+              hover:text-white
+              transition
+              text-xs
+              "
+            >
+              ▲
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setLoad((prev) => Number(prev || 0) - 5)}
+              className="
+              h-5
+              w-7
+              rounded-md
+              bg-card
+              text-text-muted
+              hover:bg-primary
+              hover:text-white
+              transition
+              text-xs
+            "
+            >
+              ▼
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Reps */}
+
       <div className="space-y-2">
         <label
           className="
@@ -118,28 +162,71 @@ const WorkoutForm = () => {
           Reps
         </label>
 
-        <input
-          type="number"
-          value={reps}
-          onChange={(e) => setReps(e.target.value)}
-          placeholder="10"
-          className="
-            w-full
+        <div className="relative">
+          <input
+            type="number"
+            value={reps}
+            onChange={(e) => setReps(e.target.value)}
+            placeholder="10"
+            className="
+             w-full
             bg-background
             border
             border-border
             rounded-input
             px-4
             py-3
+            pr-12
             text-text
             placeholder:text-text-muted
-             focus:outline-none
-             focus:border-primary
+            focus:outline-none
+            focus:border-primary
             focus:ring-2
             focus:ring-primary/20
             transition
+            [appearance:textfield]
+            [&::-webkit-inner-spin-button]:appearance-none
+            [&::-webkit-outer-spin-button]:appearance-none
           "
-        />
+          />
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col">
+            <button
+              type="button"
+              onClick={() => setReps((prev) => Number(prev || 0) + 1)}
+              className="
+              h-5
+              w-7
+              rounded-md
+              bg-card
+              text-text-muted
+              hover:bg-primary
+              hover:text-white
+              transition
+              text-xs
+              "
+            >
+              ▲
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setReps((prev) => Number(prev || 0) - 1)}
+              className="
+              h-5
+              w-7
+              rounded-md
+              bg-card
+              text-text-muted
+              hover:bg-primary
+              hover:text-white
+              transition
+              text-xs
+            "
+            >
+              ▼
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Submit */}

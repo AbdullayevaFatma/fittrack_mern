@@ -1,24 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
 
 const Signup = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+  const { signup, loading, error } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email, password);
+    const response = await signup(email, password);
+    if (response) {
+      navigate("/");
+    }
   };
-
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center">
-
-
       <form
         onSubmit={handleSubmit}
         className="
@@ -33,10 +34,7 @@ const Signup = () => {
           space-y-6
         "
       >
-
-
         <div className="text-center">
-
           <h3
             className="
               text-3xl
@@ -47,37 +45,26 @@ const Signup = () => {
             Create Account
           </h3>
 
-
           <p
             className="
               mt-2
               text-text-muted
             "
           >
-            Start tracking your workouts today
+            Start tracking your workouts
           </p>
-
-
         </div>
-
-
-
 
         {/* Email */}
 
         <div className="space-y-2">
-
-          <label className="text-sm text-text-muted">
-            Email Address
-          </label>
-
+          <label className="text-sm text-text-muted">Email Address</label>
 
           <input
             type="email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="example@email.com"
-
             className="
               w-full
               bg-background
@@ -92,28 +79,18 @@ const Signup = () => {
               transition
             "
           />
-
-
         </div>
-
-
-
 
         {/* Password */}
 
         <div className="space-y-2">
-
-          <label className="text-sm text-text-muted">
-            Password
-          </label>
-
+          <label className="text-sm text-text-muted">Password</label>
 
           <input
             type="password"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="********"
-
             className="
               w-full
               bg-background
@@ -128,14 +105,8 @@ const Signup = () => {
               transition
             "
           />
-
-
         </div>
-
-
-
-
-
+        {error && <p className="text-danger text-sm">{error}</p>}
         <button
           className="
             w-full
@@ -148,17 +119,13 @@ const Signup = () => {
             hover:scale-[1.02]
             transition
           "
+          disabled={loading}
         >
-          Sign Up
+          {loading ? "Creating..." : "Sign Up"}
         </button>
 
-
-
-
         <p className="text-center text-sm text-text-muted">
-
           Already have an account?
-
           <Link
             to="/login"
             className="
@@ -170,16 +137,10 @@ const Signup = () => {
           >
             Login
           </Link>
-
         </p>
-
-
       </form>
-
-
     </div>
   );
 };
-
 
 export default Signup;

@@ -1,27 +1,23 @@
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 
-
 const Home = () => {
-
-
   const workouts = [
     {
       _id: "1",
       title: "Bench Press",
       load: 80,
       reps: 10,
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     {
       _id: "2",
       title: "Squat",
       load: 100,
       reps: 8,
-      createdAt: new Date()
-    }
+      createdAt: new Date(),
+    },
   ];
-
 
   return (
     <div
@@ -33,14 +29,10 @@ const Home = () => {
         items-start
       "
     >
-
-
       {/* Left Side - Workouts */}
 
       <section>
-
         <div className="mb-8">
-
           <h2
             className="
               text-3xl
@@ -51,7 +43,6 @@ const Home = () => {
             Your Workouts
           </h2>
 
-
           <p
             className="
               mt-2
@@ -60,10 +51,7 @@ const Home = () => {
           >
             Track your progress and keep getting stronger 💪
           </p>
-
         </div>
-
-
 
         <div
           className="
@@ -73,22 +61,11 @@ const Home = () => {
             gap-5
           "
         >
-
           {workouts.map((workout) => (
-
-            <WorkoutDetails
-              key={workout._id}
-              workout={workout}
-            />
-
+            <WorkoutDetails key={workout._id} workout={workout} />
           ))}
-
         </div>
-
-
       </section>
-
-
 
       {/* Right Side - Form */}
 
@@ -98,15 +75,10 @@ const Home = () => {
           lg:top-28
         "
       >
-
         <WorkoutForm />
-
       </aside>
-
-
     </div>
   );
 };
-
 
 export default Home;

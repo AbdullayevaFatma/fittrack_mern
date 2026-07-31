@@ -1,13 +1,35 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import { refreshRequest } from "../api/authApi";
 
 export const AuthContext = createContext();
 
- const authReducer = (state, action) => {
+const authReducer = (state, action) => {
   switch (action.type) {
-    case "login":
-      return { user: action.payload };
-    case "logout":
-      return { user: null };
+    case "LOGIN":
+      return {
+        user: action.payload.user,
+        accessToken: action.payload.accessToken,
+        loading: false,
+      };
+
+    case "LOGOUT":
+      return {
+        user: null,
+        accessToken: null,
+        loading: false,
+      };
+
+    case "SET_LOADING":
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case "AUTH_READY":
+      return {
+        ...state,
+        loading: false,
+      };
 
     default:
       return state;
@@ -15,10 +37,43 @@ export const AuthContext = createContext();
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user: null });
+  const [state, dispatch] = useReducer(authReducer, {
+    user: null,
+    accessToken: null,
+    loading: true,
+  });
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await refreshRequest();
+
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            user: {
+              email: response.data.email,
+            },
+            accessToken: response.data.accessToken,
+          },
+        });
+      } catch (error) {
+        dispatch({
+          type: "AUTH_READY",
+        });
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        dispatch,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
