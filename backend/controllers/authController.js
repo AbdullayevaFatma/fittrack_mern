@@ -3,6 +3,7 @@ const {
   createAccessToken,
   createRefreshToken,
 } = require("../utils/generateToken");
+const jwt = require("jsonwebtoken");
 
 // COOKIE OPTIONS
 
@@ -148,10 +149,68 @@ const logoutUser = async(req,res)=>{
 };
 
 
+//REFRESH TOKEN
+
+const refreshToken = async (req, res) => {
+
+  const token = req.cookies.refreshToken;
+
+
+  if (!token) {
+    return res.status(401).json({
+      error: "No refresh token"
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const user = await User.findById(
+      decoded.id
+    );
+
+    if (!user) {
+      return res.status(401).json({
+        error:"User not found"
+      });
+    }
+
+
+    if (user.refreshToken !== token) {
+      return res.status(403).json({
+        error:"Invalid refresh token"
+      });
+
+    }
+
+    const accessToken =
+      createAccessToken(
+        user._id
+      );
+
+    res.status(200).json({
+      email:user.email,
+      accessToken
+    });
+
+  } catch(error){
+
+    res.status(401).json({
+      error:"Invalid refresh token"
+    });
+
+  }
+
+};
+
 
 
 module.exports={
   signupUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  refreshToken
 };
