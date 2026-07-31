@@ -1,9 +1,12 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { Trash2 } from "lucide-react";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
 const WorkoutDetails = ({ workout }) => {
+  const { deleteWorkout } = useWorkoutsContext();
+
   const handleClick = async () => {
-    console.log("delete workout");
+    await deleteWorkout(workout._id);
   };
 
   return (

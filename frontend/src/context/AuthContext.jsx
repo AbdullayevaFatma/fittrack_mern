@@ -1,11 +1,13 @@
 import { createContext, useEffect, useReducer } from "react";
 import { refreshRequest } from "../api/authApi";
+import { setAccessToken, clearAccessToken } from "../utils/tokenStore";
 
 export const AuthContext = createContext();
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
+      setAccessToken(action.payload.accessToken);
       return {
         user: action.payload.user,
         accessToken: action.payload.accessToken,
@@ -13,6 +15,7 @@ const authReducer = (state, action) => {
       };
 
     case "LOGOUT":
+      clearAccessToken();
       return {
         user: null,
         accessToken: null,
