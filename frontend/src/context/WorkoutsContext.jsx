@@ -63,6 +63,7 @@ export const WorkoutsContextProvider = ({ children }) => {
   // GET WORKOUTS
 
   const getWorkouts = async () => {
+     if (!accessToken) return;
     try {
       const response = await getWorkoutsRequest();
 

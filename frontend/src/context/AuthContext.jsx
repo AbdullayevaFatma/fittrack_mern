@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-import { refreshRequest, logoutRequest } from "../api/authApi";
+import { refreshRequest } from "../api/authApi";
 import { setAccessToken, clearAccessToken } from "../utils/tokenStore";
 
 export const AuthContext = createContext();

@@ -1,16 +1,24 @@
 import axios from "axios";
-import { getAccessToken } from "../utils/tokenStore";
+import {
+  getAccessToken,
+  setAccessToken,
+  clearAccessToken,
+} from "../utils/tokenStore";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
+const refreshApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
+});
 
+// REQUEST INTERCEPTOR
 
 api.interceptors.request.use(
   (config) => {
-
     const token = getAccessToken();
 
     if (token) {
@@ -22,8 +30,41 @@ api.interceptors.request.use(
 
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
+// RESPONSE INTERCEPTOR
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const response = await refreshApi.get("/user/refresh");
+
+        const newAccessToken = response.data.accessToken;
+
+        setAccessToken(newAccessToken);
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+        return api(originalRequest);
+      } catch (refreshError) {
+        clearAccessToken();
+
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export default api;

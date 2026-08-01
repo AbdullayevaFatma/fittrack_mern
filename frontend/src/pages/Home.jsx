@@ -2,11 +2,17 @@ import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useEffect } from "react";
 
 const Home = () => {
-  const { workouts } = useWorkoutsContext();
+  const { workouts, getWorkouts } = useWorkoutsContext();
+  const { accessToken } = useAuthContext();
 
- 
+  useEffect(() => {
+    if (accessToken) {
+      getWorkouts();
+    }
+  }, [accessToken]);
 
   return (
     <div
