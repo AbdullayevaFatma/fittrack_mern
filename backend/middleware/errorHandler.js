@@ -1,10 +1,10 @@
 const errorHandler = (err, req, res, next) => {
-
   let statusCode = err.statusCode || 500;
   let message = err.message || "Internal Server Error";
 
   if (err.name === "ValidationError") {
     statusCode = 400;
+
     message = Object.values(err.errors)
       .map((item) => item.message)
       .join(", ");
@@ -20,10 +20,16 @@ const errorHandler = (err, req, res, next) => {
     message = "Email already exists";
   }
 
-  res.status(statusCode).json({
+  const response = {
     success: false,
     message,
-  });
+  };
+
+  if (err.emptyFields) {
+    response.emptyFields = err.emptyFields;
+  }
+
+  res.status(statusCode).json(response);
 };
 
 module.exports = errorHandler;

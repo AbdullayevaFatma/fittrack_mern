@@ -1,39 +1,28 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const createError = require("../utils/createError");
 
 const requireAuth = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  
   if (!authorization) {
-    return res.status(401).json({
-      error: "Authorization token required",
-    });
+    return next(createError("Authorization token required", 401));
   }
 
-  // Bearer token
   const token = authorization.split(" ")[1];
 
   try {
-    const { id } = jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const { id } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-   
     req.user = await User.findById(id).select("-password -refreshToken");
 
     if (!req.user) {
-      return res.status(401).json({
-        error: "User not found",
-      });
+      return next(createError("User not found", 401));
     }
 
     next();
   } catch (error) {
-    return res.status(401).json({
-      error: "Request is not authorized",
-    });
+    next(createError("Request is not authorized", 401));
   }
 };
 
