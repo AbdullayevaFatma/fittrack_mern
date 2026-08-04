@@ -3,9 +3,10 @@ import WorkoutForm from "../components/WorkoutForm";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect } from "react";
+import WorkoutSkeleton from "../components/WorkoutSkeleton";
 
 const Home = () => {
-  const { workouts, getWorkouts } = useWorkoutsContext();
+  const { workouts, getWorkouts, loading } = useWorkoutsContext();
   const { accessToken } = useAuthContext();
 
   useEffect(() => {
@@ -56,10 +57,13 @@ const Home = () => {
             gap-5
           "
         >
-          {workouts &&
-            workouts.map((workout) => (
-              <WorkoutDetails key={workout._id} workout={workout} />
-            ))}
+          {loading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <WorkoutSkeleton key={index} />
+              ))
+            : workouts.map((workout) => (
+                <WorkoutDetails key={workout._id} workout={workout} />
+              ))}
         </div>
       </section>
 

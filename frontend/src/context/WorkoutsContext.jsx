@@ -23,6 +23,7 @@ const workoutsReducer = (state, action) => {
     case "SET_WORKOUTS":
       return {
         ...state,
+        loading: false,
         workouts: action.payload,
       };
 
@@ -63,7 +64,12 @@ export const WorkoutsContextProvider = ({ children }) => {
   // GET WORKOUTS
 
   const getWorkouts = async () => {
-     if (!accessToken) return;
+    if (!accessToken) return;
+
+    dispatch({
+      type: "WORKOUT_LOADING",
+    });
+
     try {
       const response = await getWorkoutsRequest();
 
@@ -72,7 +78,10 @@ export const WorkoutsContextProvider = ({ children }) => {
         payload: response.data,
       });
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: "WORKOUT_ERROR",
+        payload: error.response?.data?.error || "Something went wrong",
+      });
     }
   };
 
